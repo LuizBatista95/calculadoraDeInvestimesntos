@@ -1,6 +1,13 @@
 import { generateReturnsArray } from './investment.js';
+import { Chart } from 'chart.js/auto';
+
 const form = document.getElementById('investment-form');
 const clearBtn = document.getElementById('clearBtn');
+const finalMoneyChart = document.getElementById('final-money-distribution');
+const progressionChart = document.getElementById('progression');
+
+let finalChart = null;
+let finalChartBar = null;
 
 function investment(e) {
   e.preventDefault();
@@ -11,20 +18,18 @@ function investment(e) {
   const startingAmount = Number(
     document.getElementById('initial-investment').value.replace(',', '.')
   );
-
   const timeHorizon = Number(document.getElementById('term').value);
-
   const timePeriod = document.getElementById('evaluation-period').value;
-
   const monthlyContribution = Number(
     document.getElementById('add-contributions').value.replace(',', '.')
   );
-
   const returnRate = Number(
     document.getElementById('return-rate').value.replace(',', '.')
   );
-
   const returnTimeFrame = document.getElementById('evaluation-period').value;
+  const taxRate = Number(
+    document.getElementById('profit-tax').value.replace(',', '.')
+  );
 
   const returnsArray = generateReturnsArray(
     startingAmount,
@@ -34,13 +39,87 @@ function investment(e) {
     returnRate,
     returnTimeFrame
   );
-  console.log('Botão clicado');
-  console.log(returnsArray);
+
+  const finalAmount = returnsArray[returnsArray.length - 1];
+  console.log(returnsArray[returnsArray.length - 1]);
+
+  if (finalChart && finalChartBar) {
+    finalChartBar.destroy();
+    finalChart.destroy();
+  }
+
+  finalChart = new Chart(finalMoneyChart, {
+    type: 'doughnut',
+    data: {
+      labels: ['Total Investido', 'Rendimento', 'Imposto sobre Rendimento'],
+      datasets: [
+        {
+          data: [
+            finalAmount.investedAmount.toFixed(2),
+            (finalAmount.totalInterestReturn * (1 - taxRate / 100)).toFixed(2),
+            (finalAmount.totalInterestReturn * (taxRate / 100)).toFixed(2),
+          ],
+          backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 205, 86)',
+          ],
+          hoverOffset: 4,
+        },
+      ],
+    },
+    options: {
+      animation: {
+        animateScale: true,
+        animateRotate: true,
+        duration: 1300,
+        easing: 'easeOutQuart',
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+    },
+  });
+
+  finalChartBar = new Chart(progressionChart, {
+    type: 'bar',
+    data: {
+      labels: returnsArray.map((item) => item.monthly),
+      datasets: [
+        {
+          label: 'Total Investido',
+          data: returnsArray.map((item) => item.investedAmount.toFixed(2)),
+          backgroundColor: 'rgb(255, 99, 132)',
+        },
+        {
+          label: 'Retorno do Investimento (após imposto)',
+          data: returnsArray.map((item) =>
+            (item.interestReturn * (1 - taxRate / 100)).toFixed(2)
+          ),
+          backgroundColor: 'rgb(54, 162, 235)',
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      scales: {
+        x: {
+          stacked: true,
+        },
+        y: {
+          stacked: true,
+        },
+      },
+    },
+  });
 }
 
 function clearForm(e) {
   e.preventDefault();
   form.reset();
+  if (finalChart && finalChartBar) {
+    finalChart.destroy();
+    finalChartBar.destroy();
+  }
 
   form.querySelectorAll('.error').forEach((el) => {
     el.classList.remove('error');
