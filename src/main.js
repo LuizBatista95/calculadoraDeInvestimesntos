@@ -178,6 +178,6 @@ for (const formElement of form) {
   }
 }
 
-form.addEventListener('submit', investment);
+// form.addEventListener('submit', investment);
 
 clearBtn.addEventListener('click', clearForm);
