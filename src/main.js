@@ -69,14 +69,16 @@ function investment(e) {
       ],
     },
     options: {
-      animation: {
-        animateScale: true,
-        animateRotate: true,
-        duration: 1300,
-        easing: 'easeOutQuart',
-      },
       responsive: true,
       maintainAspectRatio: false,
+
+      animation: {
+        duration: 800,
+        easing: 'linear',
+        animateRotate: true,
+        animateScale: true,
+      },
+      cutout: '70%',
     },
   });
 
@@ -91,7 +93,7 @@ function investment(e) {
           backgroundColor: 'rgb(255, 99, 132)',
         },
         {
-          label: 'Retorno do Investimento (após imposto)',
+          label: 'Retorno Mensal do Investimento  (após imposto)',
           data: returnsArray.map((item) =>
             (item.interestReturn * (1 - taxRate / 100)).toFixed(2)
           ),
@@ -101,12 +103,25 @@ function investment(e) {
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       scales: {
         x: {
           stacked: true,
         },
         y: {
           stacked: true,
+        },
+      },
+      animation: {
+        duration: 1300,
+        easing: 'linear',
+      },
+      animations: {
+        y: {
+          from: 0,
+        },
+        x: {
+          from: (ctx) => ctx.chart.width,
         },
       },
     },
