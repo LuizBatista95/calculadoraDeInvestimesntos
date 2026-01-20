@@ -72,92 +72,92 @@ function investment(e) {
     returnTimeFrame
   );
 
-  // const finalAmount = returnsArray[returnsArray.length - 1];
-  // console.log(returnsArray[returnsArray.length - 1]);
+  const finalAmount = returnsArray[returnsArray.length - 1];
+  console.log(returnsArray[returnsArray.length - 1]);
 
-  // if (finalChart && finalChartBar) {
-  //   finalChartBar.destroy();
-  //   finalChart.destroy();
-  // }
+  if (finalChart && finalChartBar) {
+    finalChartBar.destroy();
+    finalChart.destroy();
+  }
 
-  // finalChart = new Chart(finalMoneyChart, {
-  //   type: 'doughnut',
-  //   data: {
-  //     labels: ['Total Investido', 'Rendimento', 'Imposto sobre Rendimento'],
-  //     datasets: [
-  //       {
-  //         data: [
-  //           finalAmount.investedAmount.toFixed(2),
-  //           (finalAmount.totalInterestReturn * (1 - taxRate / 100)).toFixed(2),
-  //           (finalAmount.totalInterestReturn * (taxRate / 100)).toFixed(2),
-  //         ],
-  //         backgroundColor: [
-  //           'rgb(255, 99, 132)',
-  //           'rgb(54, 162, 235)',
-  //           'rgb(255, 205, 86)',
-  //         ],
-  //         hoverOffset: 4,
-  //       },
-  //     ],
-  //   },
-  //   options: {
-  //     responsive: true,
-  //     maintainAspectRatio: false,
+  finalChart = new Chart(finalMoneyChart, {
+    type: 'doughnut',
+    data: {
+      labels: ['Total Investido', 'Rendimento', 'Imposto sobre Rendimento'],
+      datasets: [
+        {
+          data: [
+            finalAmount.investedAmount.toFixed(2),
+            (finalAmount.totalInterestReturn * (1 - taxRate / 100)).toFixed(2),
+            (finalAmount.totalInterestReturn * (taxRate / 100)).toFixed(2),
+          ],
+          backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 205, 86)',
+          ],
+          hoverOffset: 4,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
 
-  //     animation: {
-  //       duration: 800,
-  //       easing: 'linear',
-  //       animateRotate: true,
-  //       animateScale: true,
-  //     },
-  //     cutout: '70%',
-  //   },
-  // });
+      animation: {
+        duration: 800,
+        easing: 'linear',
+        animateRotate: true,
+        animateScale: true,
+      },
+      cutout: '70%',
+    },
+  });
 
-  // finalChartBar = new Chart(progressionChart, {
-  //   type: 'bar',
-  //   data: {
-  //     labels: returnsArray.map((item) => item.monthly),
-  //     datasets: [
-  //       {
-  //         label: 'Total Investido',
-  //         data: returnsArray.map((item) => item.investedAmount.toFixed(2)),
-  //         backgroundColor: 'rgb(255, 99, 132)',
-  //       },
-  //       {
-  //         label: 'Retorno Mensal do Investimento  (após imposto)',
-  //         data: returnsArray.map((item) =>
-  //           (item.interestReturn * (1 - taxRate / 100)).toFixed(2)
-  //         ),
-  //         backgroundColor: 'rgb(54, 162, 235)',
-  //       },
-  //     ],
-  //   },
-  //   options: {
-  //     responsive: true,
-  //     maintainAspectRatio: false,
-  //     scales: {
-  //       x: {
-  //         stacked: true,
-  //       },
-  //       y: {
-  //         stacked: true,
-  //       },
-  //     },
-  //     animation: {
-  //       duration: 1300,
-  //       easing: 'linear',
-  //     },
-  //     animations: {
-  //       y: {
-  //         from: 0,
-  //       },
-  //       x: {
-  //         from: (ctx) => ctx.chart.width,
-  //       },
-  //     },
-  //   },
-  // });
+  finalChartBar = new Chart(progressionChart, {
+    type: 'bar',
+    data: {
+      labels: returnsArray.map((item) => item.monthly),
+      datasets: [
+        {
+          label: 'Total Investido',
+          data: returnsArray.map((item) => item.investedAmount.toFixed(2)),
+          backgroundColor: 'rgb(255, 99, 132)',
+        },
+        {
+          label: 'Retorno Mensal do Investimento  (após imposto)',
+          data: returnsArray.map((item) =>
+            (item.interestReturn * (1 - taxRate / 100)).toFixed(2)
+          ),
+          backgroundColor: 'rgb(54, 162, 235)',
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          stacked: true,
+        },
+        y: {
+          stacked: true,
+        },
+      },
+      animation: {
+        duration: 1300,
+        easing: 'linear',
+      },
+      animations: {
+        y: {
+          from: 0,
+        },
+        x: {
+          from: (ctx) => ctx.chart.width,
+        },
+      },
+    },
+  });
 
   reloadTable();
   createTable(colunsArray, returnsArray, 'result-table');
@@ -232,6 +232,19 @@ for (const formElement of form) {
     formElement.addEventListener('blur', validateInput);
   }
 }
+
+const mainEl = document.querySelector('main');
+const carousel = document.getElementById('carousel');
+const nextBtn = document.getElementById('slide-arrow-next');
+const prevBtn = document.getElementById('slide-arrow-previus');
+
+nextBtn.addEventListener('click', () => {
+  carousel.scrollLeft += mainEl.clientWidth;
+});
+
+prevBtn.addEventListener('click', () => {
+  carousel.scrollLeft -= mainEl.clientWidth;
+});
 
 form.addEventListener('submit', investment);
 

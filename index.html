@@ -1,9 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./src/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
     <title>Calculadora</title>
   </head>
   <body class="h-dvh grid grid-cols-3 grid-rows-2">
@@ -136,26 +140,51 @@
         </button>
       </div>
     </aside>
-    <main class="row-span-2 col-span-2 p-4">
-      <!-- <section id="charts-container" class="h-full">
-        <div class="h-[36%] flex flex-col items-center pb-10">
-          <p class="font-bold text-lg">Resultado Final</p>
-          <canvas id="final-money-distribution"></canvas>
-        </div>
-        <div class="h-[46%] w-full flex flex-col items-center">
-          <p class="font-bold text-lg">Progressão</p>
-          <canvas id="progression"></canvas>
-        </div>
-      </section> -->
+    <main class="row-span-2 col-span-2 p-4 relative">
+      <button
+        id="slide-arrow-previus"
+        class="absolute top-1/2 left-0 transform -translate-y-1/2 cursor-pointer bg-zinc-200 rounded-l-lg ml-2 opacity-50 hover:opacity-100 transition-opacity duration-300 focus:opacity-100"
+      >
+        <i class="bi bi-caret-left text-[14px] text-black"></i>
+      </button>
+      <button
+        id="slide-arrow-next"
+        class="absolute top-1/2 right-0 transform -translate-y-1/2 cursor-pointer bg-zinc-200 rounded-r-lg mr-2 opacity-50 hover:opacity-100 transition-opacity duration-300 focus:opacity-100"
+      >
+        <i class="bi bi-caret-right text-[14px] text-black"></i>
+      </button>
+      <div
+        id="carousel"
+        class="w-full h-full flex overflow-x-auto scroll-smooth"
+      >
+        <section id="charts-container" class="h-full basis-full shrink-0 p-4">
+          <div class="h-[36%] flex flex-col items-center pb-10">
+            <p class="font-bold text-lg">Resultado Final</p>
+            <canvas id="final-money-distribution"></canvas>
+          </div>
+          <div class="h-[46%] w-full flex flex-col items-center">
+            <p class="font-bold text-lg">Progressão</p>
+            <canvas id="progression"></canvas>
+          </div>
+        </section>
 
-      <section id="table-container" class="h-full overflow-auto">
-        <p class="font-bold text-lg text-center">Resultados Mensais</p>
-        <table
-          id="result-table"
-          class="w-full max-h-full border-separate p-2"
-        ></table>
-      </section>
+        <section
+          id="table-container"
+          class="h-full overflow-auto basis-full shrink-0"
+        >
+          <p class="font-bold text-lg text-center">Resultados Mensais</p>
+          <table
+            id="result-table"
+            class="w-full max-h-full border-separate p-2"
+          ></table>
+        </section>
+      </div>
     </main>
     <script type="module" src="./src/main.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>
